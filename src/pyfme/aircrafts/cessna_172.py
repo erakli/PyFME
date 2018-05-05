@@ -90,6 +90,7 @@ class Cessna172(Aircraft):
     """
 
     def __init__(self):
+        super().__init__()
 
         # Mass & Inertia
         self.mass = 2300 * lbs2kg   # kg
@@ -173,29 +174,6 @@ class Cessna172(Aircraft):
                                                 np.deg2rad(16)),  # rad
                                'delta_t': (0, 1)}  # non-dimensional
 
-        # Aerodynamic Coefficients
-        self.CL, self.CD, self.Cm = 0, 0, 0
-        self.CY, self.Cl, self.Cn = 0, 0, 0
-
-        # Thrust Coefficient
-        self.Ct = 0
-
-        self.total_forces = np.zeros(3)
-        self.total_moments = np.zeros(3)
-        # self.load_factor = 0
-
-        # Velocities
-        self.TAS = 0  # True Air Speed.
-        self.CAS = 0  # Calibrated Air Speed.
-        self.EAS = 0  # Equivalent Air Speed.
-        self.Mach = 0  # Mach number
-        self.q_inf = 0  # Dynamic pressure at infinity (Pa)
-
-        # Angles
-        self.alpha = 0  # rad
-        self.beta = 0  # rad
-        self.alpha_dot = 0  # rad/s
-
     @property
     def delta_elevator(self):
         return self.controls['delta_elevator']
@@ -244,7 +222,7 @@ class Cessna172(Aircraft):
         )
         self.CD = CD_alpha_interp + CD_delta_elev_interp
 
-        self.CM = (
+        self.Cm = (
             CM_alpha_interp +
             CM_delta_elev_interp +
             c/(2*V) * (2*CM_q * q + CM_alphadot * alpha_dot)
@@ -292,7 +270,7 @@ class Cessna172(Aircraft):
             b/(2 * V) * (Cl_p * p + Cl_r * r)
         )
         # XXX: Tunned CN_delta_rud
-        self.CN = (
+        self.Cn = (
             CN_beta * self.beta +
             CN_delta_aile_interp +
             0.075*CN_delta_rud * delta_rud_RAD +
@@ -312,8 +290,8 @@ class Cessna172(Aircraft):
         D = q * Sw * self.CD
         Y = q * Sw * self.CY
         l = q * Sw * b * self.Cl
-        m = q * Sw * c * self.CM
-        n = q * Sw * b * self.CN
+        m = q * Sw * c * self.Cm
+        n = q * Sw * b * self.Cn
 
         return L, D, Y, l, m, n
 
@@ -345,6 +323,7 @@ class Cessna172(Aircraft):
         super().calculate_forces_and_moments(state, environment, controls)
 
         Ft = self._calculate_thrust_forces_moments(environment)
+
         L, D, Y, l, m, n = self._calculate_aero_forces_moments(state)
         Fg = environment.gravity_vector * self.mass
 

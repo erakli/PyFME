@@ -54,14 +54,12 @@ class DynamicSystem:
             Options for the selected method.
         """
 
-        if options is None:
-            options = {}
         self._state_vector = x0
         self._state_vector_dot = np.zeros_like(x0)
         self._time = t0
 
         self._method = method
-        self._options = options
+        self._options = options or {}
 
     @property
     def state_vector(self):

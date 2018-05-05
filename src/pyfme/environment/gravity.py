@@ -48,6 +48,7 @@ class VerticalConstant(Gravity):
     """
 
     def __init__(self):
+        super().__init__()
         self._magnitude = GRAVITY
         self._z_horizon = np.array([0, 0, 1], dtype=float)
 
@@ -67,6 +68,7 @@ class VerticalNewton(Gravity):
     """
 
     def __init__(self):
+        super().__init__()
         self._z_horizon = np.array([0, 0, 1], dtype=float)
 
     def update(self, state):

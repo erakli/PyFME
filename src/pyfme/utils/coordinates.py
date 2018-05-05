@@ -38,6 +38,21 @@ def check_theta_phi_psi_range(theta, phi, psi):
         raise ValueError('Psi value is not inside correct range')
 
 
+def rotation_matrix_body2hor(theta, phi, psi):
+    Lhb = np.array([
+        [cos(theta) * cos(psi),
+         sin(phi) * sin(theta) * cos(psi) - cos(phi) * sin(psi),
+         cos(phi) * sin(theta) * cos(psi) + sin(phi) * sin(psi)],
+        [cos(theta) * sin(psi),
+         sin(phi) * sin(theta) * sin(psi) + cos(phi) * cos(psi),
+         cos(phi) * sin(theta) * sin(psi) - sin(phi) * cos(psi)],
+        [- sin(theta),
+         sin(phi) * cos(theta),
+         cos(phi) * cos(theta)]
+    ])
+    return Lhb
+
+
 def body2hor(body_coords, theta, phi, psi):
     """Transforms the vector coordinates in body frame of reference to local
     horizon frame of reference.
@@ -81,17 +96,7 @@ def body2hor(body_coords, theta, phi, psi):
     # check_theta_phi_psi_range(theta, phi, psi)
 
     # Transformation matrix from body to local horizon
-    Lhb = np.array([
-                    [cos(theta) * cos(psi),
-                     sin(phi) * sin(theta) * cos(psi) - cos(phi) * sin(psi),
-                     cos(phi) * sin(theta) * cos(psi) + sin(phi) * sin(psi)],
-                    [cos(theta) * sin(psi),
-                     sin(phi) * sin(theta) * sin(psi) + cos(phi) * cos(psi),
-                     cos(phi) * sin(theta) * sin(psi) - sin(phi) * cos(psi)],
-                    [- sin(theta),
-                     sin(phi) * cos(theta),
-                     cos(phi) * cos(theta)]
-                    ])
+    Lhb = rotation_matrix_body2hor(theta, phi, psi)
 
     hor_coords = Lhb.dot(body_coords)
 
@@ -141,17 +146,7 @@ def hor2body(hor_coords, theta, phi, psi):
     # check_theta_phi_psi_range(theta, phi, psi)
 
     # Transformation matrix local horizon to body
-    Lbh = np.array([
-                    [cos(theta) * cos(psi),
-                     cos(theta) * sin(psi),
-                     - sin(theta)],
-                    [sin(phi) * sin(theta) * cos(psi) - cos(phi) * sin(psi),
-                     sin(phi) * sin(theta) * sin(psi) + cos(phi) * cos(psi),
-                     sin(phi) * cos(theta)],
-                    [cos(phi) * sin(theta) * cos(psi) + sin(phi) * sin(psi),
-                     cos(phi) * sin(theta) * sin(psi) - sin(phi) * cos(psi),
-                     cos(phi) * cos(theta)]
-                    ])
+    Lbh = rotation_matrix_body2hor(theta, phi, psi).transpose()
 
     body_coords = Lbh.dot(hor_coords)
 
@@ -174,6 +169,21 @@ def check_gamma_mu_chi_range(gamma, mu, chi):
         raise ValueError('Mu value is not inside correct range')
     elif not (chi_min <= chi <= chi_max):
         raise ValueError('Chi value is not inside correct range')
+
+
+def rotation_matrix_wind2hor(gamma, mu, chi):
+    Lhw = np.array([
+        [cos(gamma) * cos(chi),
+         sin(mu) * sin(gamma) * sin(chi) - cos(mu) * sin(chi),
+         cos(mu) * sin(gamma) * cos(chi) + sin(mu) * sin(chi)],
+        [cos(gamma) * sin(chi),
+         sin(mu) * sin(gamma) * sin(chi) + cos(mu) * cos(chi),
+         cos(mu) * sin(gamma) * sin(chi) - sin(mu) * cos(chi)],
+        [-sin(gamma),
+         sin(mu) * cos(gamma),
+         cos(mu) * cos(gamma)]
+    ])
+    return Lhw
 
 
 def wind2hor(wind_coords, gamma, mu, chi):
@@ -219,17 +229,7 @@ def wind2hor(wind_coords, gamma, mu, chi):
     check_gamma_mu_chi_range(gamma, mu, chi)
 
     # Transformation matrix from wind to local horizon
-    Lhw = np.array([
-                    [cos(gamma) * cos(chi),
-                     sin(mu) * sin(gamma) * sin(chi) - cos(mu) * sin(chi),
-                     cos(mu) * sin(gamma) * cos(chi) + sin(mu) * sin(chi)],
-                    [cos(gamma) * sin(chi),
-                     sin(mu) * sin(gamma) * sin(chi) + cos(mu) * cos(chi),
-                     cos(mu) * sin(gamma) * sin(chi) - sin(mu) * cos(chi)],
-                    [-sin(gamma),
-                     sin(mu) * cos(gamma),
-                     cos(mu) * cos(gamma)]
-                    ])
+    Lhw = rotation_matrix_wind2hor(gamma, mu, chi)
 
     hor_coords = Lhw.dot(wind_coords)
 
@@ -278,17 +278,7 @@ def hor2wind(hor_coords, gamma, mu, chi):
     check_gamma_mu_chi_range(gamma, mu, chi)
 
     # Transformation matrix from local horizon to wind
-    Lwh = np.array([
-                    [cos(gamma) * cos(chi),
-                     cos(gamma) * sin(chi),
-                     -sin(gamma)],
-                    [sin(mu) * sin(gamma) * sin(chi) - cos(mu) * sin(chi),
-                     sin(mu) * sin(gamma) * sin(chi) + cos(mu) * cos(chi),
-                     sin(mu) * cos(gamma)],
-                    [cos(mu) * sin(gamma) * cos(chi) + sin(mu) * sin(chi),
-                     cos(mu) * sin(gamma) * sin(chi) - sin(mu) * cos(chi),
-                     cos(mu) * cos(gamma)]
-                    ])
+    Lwh = rotation_matrix_wind2hor(gamma, mu, chi).transpose()
 
     wind_coords = Lwh.dot(hor_coords)
 
@@ -308,6 +298,21 @@ def check_alpha_beta_range(alpha, beta):
         raise ValueError('Alpha value is not inside correct range')
     elif not (beta_min <= beta <= beta_max):
         raise ValueError('Beta value is not inside correct range')
+
+
+def rotation_matrix_body2wind(alpha, beta):
+    Lwb = np.array([
+        [cos(alpha) * cos(beta),
+         sin(beta),
+         sin(alpha) * cos(beta)],
+        [-cos(alpha) * sin(beta),
+         cos(beta),
+         -sin(alpha) * sin(beta)],
+        [-sin(alpha),
+         0,
+         cos(alpha)]
+    ])
+    return Lwb
 
 
 def body2wind(body_coords, alpha, beta):
@@ -349,17 +354,7 @@ def body2wind(body_coords, alpha, beta):
     check_alpha_beta_range(alpha, beta)
 
     # Transformation matrix from body to wind
-    Lwb = np.array([
-                    [cos(alpha) * cos(beta),
-                     sin(beta),
-                     sin(alpha) * cos(beta)],
-                    [- cos(alpha) * sin(beta),
-                     cos(beta),
-                     -sin(alpha) * sin(beta)],
-                    [-sin(alpha),
-                     0,
-                     cos(alpha)]
-                    ])
+    Lwb = rotation_matrix_body2wind(alpha, beta)
 
     wind_coords = Lwb.dot(body_coords)
 
@@ -405,17 +400,7 @@ def wind2body(wind_coords, alpha, beta):
     check_alpha_beta_range(alpha, beta)
 
     # Transformation matrix from body to wind
-    Lbw = np.array([
-                    [cos(alpha) * cos(beta),
-                     - cos(alpha) * sin(beta),
-                     -sin(alpha)],
-                    [sin(beta),
-                     cos(beta),
-                     0],
-                    [sin(alpha) * cos(beta),
-                     -sin(alpha) * sin(beta),
-                     cos(alpha)]
-                    ])
+    Lbw = rotation_matrix_body2wind(alpha, beta).transpose()
 
     body_coords = Lbw.dot(wind_coords)
 

@@ -37,7 +37,7 @@ class AngularAcceleration:
 
     @abstractmethod
     def update(self, coords, attitude):
-        raise ValueError
+        raise NotImplementedError
 
     @property
     def acc_ang_body(self):

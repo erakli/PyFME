@@ -161,21 +161,18 @@ class Simulation:
         # To deal with floating point issues we cannot check equality to
         # final time to finish propagation
         time_plus_half_dt = time + half_dt
-        while self.system.time + dt < time_plus_half_dt:
-            t = self.system.time
-            self.environment.update(self.system.full_state)
-            controls = self._get_current_controls(t)
-            self.aircraft.calculate_forces_and_moments(self.system.full_state,
-                                                       self.environment,
-                                                       controls)
-            self.system.time_step(dt)
-            self._save_time_step()
-            bar.update(dt)
+        try:
+            while self.time + dt < time_plus_half_dt:
+                self.system.time_step(dt)
+                self._save_time_step()
+                bar.update(dt)
+        except Exception:
+            pass
+        finally:
+            bar.close()
 
-        bar.close()
-
-        results = pd.DataFrame(self.results)
-        results.set_index('time', inplace=True)
+            results = pd.DataFrame(self.results)
+            results.set_index('time', inplace=True)
 
         return results
 

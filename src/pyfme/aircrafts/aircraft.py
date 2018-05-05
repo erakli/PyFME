@@ -6,6 +6,9 @@ Distributed under the terms of the MIT License.
 Generic Aircraft
 ----------------
 
+Represents interface for calculating internal forces of
+Aircraft model.
+
 """
 from abc import abstractmethod
 
@@ -32,8 +35,12 @@ class Aircraft(object):
 
         # Coefficients
         # Aero
-        self.CL, self.CD, self.Cm = 0, 0, 0
-        self.CY, self.Cl, self.Cn = 0, 0, 0
+        self.CD = 0  # Drag
+        self.CY = 0  # Side Force
+        self.CL = 0  # Lift
+        self.Cl = 0  # Rolling moment
+        self.Cm = 0  # Pitching moment
+        self.Cn = 0  # Yawing moment
 
         # Thrust
         self.Ct = 0
@@ -47,12 +54,12 @@ class Aircraft(object):
         self.CAS = 0  # Calibrated Air Speed.
         self.EAS = 0  # Equivalent Air Speed.
         self.Mach = 0  # Mach number
-        self.q_inf = 0  # Dynamic pressure at infty (Pa)
+        self.q_inf = 0  # Dynamic pressure at infinity (Pa)
 
         # Angles
-        self.alpha = 0  # Angle of attack (AOA).
-        self.beta = 0  # Angle of sideslip (AOS).
-        self.alpha_dot = 0  # Rate of change of AOA.
+        self.alpha = 0  # rad, Angle of attack (AOA).
+        self.beta = 0  # rad, Angle of sideslip (AOS).
+        self.alpha_dot = 0  # rad/s, Rate of change of AOA.
 
     @property
     def Ixx(self):
@@ -132,6 +139,6 @@ class Aircraft(object):
 
     @abstractmethod
     def calculate_forces_and_moments(self, state, environment, controls):
-
+        # consider move it out
         self._set_current_controls(controls)
         self._calculate_aerodynamics(state, environment)

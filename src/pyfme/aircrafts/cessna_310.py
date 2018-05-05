@@ -181,7 +181,7 @@ class Cessna310(Aircraft):
         l = q * Sw * b * self.Cl
         m = q * Sw * c * self.Cm
         n = q * Sw * b * self.Cn
-        return L, D, Y, l, m , n
+        return L, D, Y, l, m, n
 
     def _calculate_thrust_forces_moments(self):
         q = self.q_inf

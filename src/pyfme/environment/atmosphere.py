@@ -91,7 +91,7 @@ class Atmosphere(object):
 
     @abstractmethod
     def __call__(self, h):
-        pass
+        raise NotImplemented
 
 
 class ISA1976(Atmosphere):

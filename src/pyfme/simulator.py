@@ -139,6 +139,11 @@ class Simulation:
         )
         return self
 
+    def run(self, time):
+        result = self.system.integrate(time)
+        results = pd.DataFrame(data=result.y, index=result.t)
+        return results
+
     def propagate(self, time):
         """Run the simulation by integrating the system until time t.
 

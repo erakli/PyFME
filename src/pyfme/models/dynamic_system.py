@@ -18,6 +18,8 @@ from abc import abstractmethod
 import numpy as np
 from scipy.integrate import solve_ivp
 
+from itertools import zip_longest
+
 
 class DynamicSystem:
     """Dynamic system class to integrate initial value problems numerically.
@@ -58,8 +60,12 @@ class DynamicSystem:
         self._state_vector_dot = np.zeros_like(x0)
         self._time = t0
 
+        self._rtol = 1e-5
+
         self._method = method
         self._options = options or {}
+
+        self._stop_integration_event = None
 
     @property
     def state_vector(self):
@@ -72,6 +78,23 @@ class DynamicSystem:
     @property
     def time(self):
         return self._time
+
+    @abstractmethod
+    def get_state_vector_names(self):
+        raise NotImplementedError
+
+    def _solve(self, fun, t_end, **kwargs):
+        x0 = self.state_vector
+        t_ini = self.time
+
+        t_span = (t_ini, t_end)
+        method = self._method
+
+        sol = solve_ivp(fun, t_span, x0, method=method, rtol=self._rtol,
+                        events=self._stop_integration_event,
+                        **self._options, **kwargs)
+
+        return sol
 
     def integrate(self, t_end, t_eval=None, dense_output=True):
         """Integrate the system from current time to t_end.
@@ -119,23 +142,14 @@ class DynamicSystem:
                 occurred (status >= 0).
 
         """
-        # TODO: this mehtod is intended to return the whole integration history
-        # meanwhile, only time_step is called
-        # How dos it update the full system?
-        x0 = self.state_vector
-        t_ini = self.time
 
-        t_span = (t_ini, t_end)
-        method = self._method
+        sol = self._solve(self.fun, t_end, t_eval=t_eval,
+                          dense_output=dense_output)
 
-        # TODO: prepare to use jacobian in case it is defined
-        sol = solve_ivp(self.fun, t_span, x0, method=method, t_eval=t_eval,
-                        dense_output=dense_output, **self._options)
+        names = self.get_state_vector_names()
+        sol.y = dict(zip_longest(names, sol.y))
 
-        self._time = sol.t[-1]
-        self._state_vector = sol.y[:, -1]
-
-        return sol.t, sol.y, sol
+        return sol
 
     def time_step(self, dt):
         """Integrate the system from current time to t_end.
@@ -151,15 +165,8 @@ class DynamicSystem:
             Solution values at t_end.
         """
 
-        x0 = self.state_vector
-        t_ini = self.time
-
-        t_span = (t_ini, t_ini + dt)
-        method = self._method
-
-        # TODO: prepare to use jacobian in case it is defined
-        sol = solve_ivp(self.fun_wrapped, t_span, x0, method=method,
-                        **self._options)
+        t_end = self.time + dt
+        sol = self._solve(self.fun_wrapped, t_end)
 
         if sol.status == -1:
             raise RuntimeError(f"Integration did not converge at t={t_ini}")

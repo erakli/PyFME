@@ -13,6 +13,7 @@ References
     Derivatives of Conventional Subsonic Airplanes
 [2] McDonnell Douglas Co., The USAF and Stability and Control
     Digital DATCOM, Users Manual
+
 ----------
 
 CD            - drag coefficient as fhunction of the angle of attack via [2]
@@ -72,6 +73,7 @@ CN_delta_rud  - yawing moment coefficient derivative with respect to the
 CN_delta_aile - incremental yawing moment coefficient derivative with respect
                 to the aileron deflection as a function of the aileron
                 deflection and the angle of attack via [2]
+
 """
 import numpy as np
 from scipy.interpolate import RectBivariateSpline

@@ -12,6 +12,12 @@ given condition. This cannot be done analytically because of the very complex
 functional dependence on the aerodynamic data. Instead, it must be done with
 a numerical algorithm which iteratively adjusts the independent variables
 until some solution criterion is met.
+
+References
+----------
+.. [STE] Stevens, BL and Lewis, FL, "Aircraft Control and Simulation",
+    Wiley-lnterscience.
+
 """
 
 import copy
@@ -34,7 +40,7 @@ def steady_state_trim(aircraft, environment, pos, psi, TAS, controls, gamma=0,
     Steady-state aircraft flight is defined as a condition in which all
     of the motion variables are constant or zero. That is, the linear and
     angular velocity components are constant (or zero), thus all
-     acceleration components are zero.
+    acceleration components are zero.
 
     Parameters
     ----------
@@ -75,14 +81,10 @@ def steady_state_trim(aircraft, environment, pos, psi, TAS, controls, gamma=0,
 
     Notes
     -----
-    See section 3.4 in [1] for the algorithm description.
-    See section 2.5 in [1] for the definition of steady-state flight
+    See section 3.4 in [STE]_ for the algorithm description.
+    See section 2.5 in [STE]_ for the definition of steady-state flight
     condition.
 
-    References
-    ----------
-    .. [1] Stevens, BL and Lewis, FL, "Aircraft Control and Simulation",
-        Wiley-lnterscience.
     """
 
     # Set initial state

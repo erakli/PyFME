@@ -6,6 +6,14 @@ Distributed under the terms of the MIT License.
 
 Frames of Reference orientation functions
 -----------------------------------------
+
+References
+----------
+.. [ETK2012] B. Etkin, "Dynamics of Atmospheric Flight," Courier Corporation,
+    pp. 104-120, 2012.
+.. [TIE2012] Gómez Tierno, M.A. et al, "Mecánica del Vuelo," Garceta, pp. 1-12,
+    2012
+
 """
 
 import numpy as np
@@ -61,19 +69,13 @@ def body2hor(body_coords, theta, phi, psi):
 
     Notes
     -----
-    See [1] or [2] for frame of reference definition.
+    See [ETK2012]_ or [TIE2012]_ for frame of reference definition.
     Note that in order to avoid ambiguities ranges in angles are limited to:
 
     * -pi/2 <= theta <= pi/2
     * -pi <= phi <= pi
     * 0 <= psi <= 2*pi
 
-    References
-    ----------
-    .. [1] B. Etkin, "Dynamics of Atmospheric Flight," Courier Corporation,
-        pp. 104-120, 2012.
-    .. [2] Gómez Tierno, M.A. et al, "Mecánica del Vuelo," Garceta, pp. 1-12,
-        2012
     """
 
     # check_theta_phi_psi_range(theta, phi, psi)
@@ -127,19 +129,13 @@ def hor2body(hor_coords, theta, phi, psi):
 
     Notes
     -----
-    See [1] or [2] for frame of reference definition.
+    See [ETK2012]_ or [TIE2012]_ for frame of reference definition.
     Note that in order to avoid ambiguities ranges in angles are limited to:
 
     * -pi/2 <= theta <= pi/2
     * -pi <= phi <= pi
     * 0 <= psi <= 2*pi
 
-    References
-    ----------
-    .. [1] B. Etkin, "Dynamics of Atmospheric Flight," Courier Corporation,
-        pp. 104-120, 2012.
-    .. [2] Gómez Tierno, M.A. et al, "Mecánica del Vuelo," Garceta, pp. 1-12,
-        2012
     """
 
     # check_theta_phi_psi_range(theta, phi, psi)
@@ -211,17 +207,12 @@ def wind2hor(wind_coords, gamma, mu, chi):
 
     Notes
     -----
-    See [1] for frame of reference definition.
+    See [TIE2012]_ for frame of reference definition.
     Note that in order to avoid ambiguities ranges in angles are limited to:
 
     * -pi/2 <= gamma <= pi/2
     * -pi <= mu <= pi
     * 0 <= chi <= 2*pi
-
-    References
-    ----------
-    .. [1] Gómez Tierno, M.A. et al, "Mecánica del Vuelo," Garceta, pp. 1-12,
-        2012
 
     """
 
@@ -276,16 +267,11 @@ def hor2wind(hor_coords, gamma, mu, chi):
 
     Notes
     -----
-    See [1] for frame of reference definition.
+    See [TIE2012]_ for frame of reference definition.
     Note that in order to avoid ambiguities ranges in angles are limited to:
     * -pi/2 <= gamma <= pi/2
     * -pi <= mu <= pi
     * 0 <= chi <= 2*pi
-
-    References
-    ----------
-    .. [1] Gómez Tierno, M.A. et al, "Mecánica del Vuelo," Garceta, pp. 1-12,
-        2012
 
     """
 
@@ -353,17 +339,10 @@ def body2wind(body_coords, alpha, beta):
 
     Notes
     -----
-    See [1] or [2] for frame of reference definition.
+    See [ETK2012]_ or [TIE2012]_ for frame of reference definition.
     Note that in order to avoid ambiguities ranges in angles are limited to:
     * -pi/2 <= alpha <= pi/2
     * -pi <= beta <= pi
-
-    References
-    ----------
-    .. [1] B. Etkin, "Dynamics of Atmospheric Flight," Courier Corporation,
-        pp. 104-120, 2012.
-    .. [2] Gómez Tierno, M.A. et al, "Mecánica del Vuelo," Garceta, pp. 1-12,
-        2012
 
     """
 
@@ -416,17 +395,10 @@ def wind2body(wind_coords, alpha, beta):
 
     Notes
     -----
-    See [1] or [2] for frame of reference definition.
+    See [ETK2012]_ or [TIE2012]_ for frame of reference definition.
     Note that in order to avoid ambiguities ranges in angles are limited to:
     * -pi/2 <= alpha <= pi/2
     * -pi <= beta <= pi
-
-    References
-    ----------
-    .. [1] B. Etkin, "Dynamics of Atmospheric Flight," Courier Corporation,
-        pp. 104-120, 2012.
-    .. [2] Gómez Tierno, M.A. et al, "Mecánica del Vuelo," Garceta, pp. 1-12,
-        2012
 
     """
 

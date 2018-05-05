@@ -54,13 +54,13 @@ class Atmosphere(object):
 
         Notes
         -----
-        Check layers and reference values in [2].
+        Check layers and reference values in [2]__.
 
         References
         ----------
-        .. [1] U.S. Standard Atmosphere, 1976, U.S. Government Printing Office,
-            Washington, D.C., 1976
-        .. [2] https://en.wikipedia.org/wiki/U.S._Standard_Atmosphere
+        .. [1]__ U.S. Standard Atmosphere, 1976, U.S. Government Printing
+            Office, Washington, D.C., 1976
+        .. [2]__ https://en.wikipedia.org/wiki/U.S._Standard_Atmosphere
 
         """
         # Geopotential altitude
@@ -97,10 +97,10 @@ class Atmosphere(object):
 class ISA1976(Atmosphere):
     """
     International Standard Atmosphere 1976
-    --------------------------------------
+
     Implementation based on:
     .. [1] U.S. Standard Atmosphere, 1976, U.S. Government Printing Office,
-            Washington, D.C., 1976
+    Washington, D.C., 1976
 
     From: https://en.wikipedia.org/wiki/U.S._Standard_Atmosphere
 

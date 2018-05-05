@@ -4,6 +4,16 @@ API Reference
 .. automodule:: pyfme.simulator
    :members:
 
+---------------------------
+`pyfme.aircrafts` package
+---------------------------
+
+.. automodule:: pyfme.aircrafts
+
+.. automodule:: pyfme.aircrafts.aircraft
+   :members:
+
+---------------------------
 `pyfme.environment` package
 ---------------------------
 
@@ -24,7 +34,7 @@ API Reference
 .. automodule:: pyfme.environment.wind
    :members:
 
-
+----------------------
 `pyfme.models` package
 ----------------------
 
@@ -33,9 +43,10 @@ API Reference
 .. automodule:: pyfme.models.euler_flat_earth
    :members:
 
-.. automodule:: pyfme.models.systems
+.. automodule:: pyfme.models.dynamic_system
    :members:
 
+---------------------
 `pyfme.utils` package
 ---------------------
 

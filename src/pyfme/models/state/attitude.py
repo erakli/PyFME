@@ -87,7 +87,17 @@ class Attitude:
 class EulerAttitude(Attitude):
 
     def __init__(self, theta, phi, psi):
-        # TODO: docstring
+        """
+
+        Parameters
+        ----------
+        theta
+            pitch
+        phi
+            roll
+        psi
+            yaw
+        """
         super().__init__()
         self.update(np.array([theta, phi, psi]))
 

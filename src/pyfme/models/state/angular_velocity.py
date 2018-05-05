@@ -17,14 +17,9 @@ class AngularVelocity:
 
     vel_ang : ndarray, shape(3)
         (p [rad/s], q [rad/s], r [rad/s])
-    p
-    q
-    r
     euler_ang_rates : ndarray, shape(3)
         (theta_dot [rad/s], phi_dot [rad/s], psi_dot [rad/s])
-    theta
-    phi
-    psi
+
     """
 
     def __init__(self):
@@ -78,7 +73,17 @@ class AngularVelocity:
 class BodyAngularVelocity(AngularVelocity):
 
     def __init__(self, p, q, r, attitude):
-        # TODO: docstring
+        """
+        Parameters
+        ----------
+        p : float
+            roll angular velocity
+        q : float
+            pitch angular velocity
+        r : float
+            yaw angular velocity
+        attitude
+        """
         super().__init__()
         self.update(np.array([p, q, r]), attitude)
 

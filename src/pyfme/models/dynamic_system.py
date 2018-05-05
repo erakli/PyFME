@@ -91,10 +91,6 @@ class DynamicSystem:
 
         Returns
         -------
-        t : ndarray, shape (n_points,)
-            Time points.
-        y : ndarray, shape (n, n_points)
-            Solution values at t.
         sol : Bunch object with the following fields defined:
             t : ndarray, shape (n_points,)
                 Time points.
@@ -121,8 +117,9 @@ class DynamicSystem:
             message : string
                 Verbal description of the termination reason.
             success : bool
-            True if the solver reached the interval end or a termination event
-             occurred (status >= 0).
+                True if the solver reached the interval end or a termination event
+                occurred (status >= 0).
+
         """
         # TODO: this mehtod is intended to return the whole integration history
         # meanwhile, only time_step is called
@@ -205,7 +202,7 @@ class AircraftDynamicSystem(DynamicSystem):
     full_state : AircraftState
         Current aircraft state.
     update_simulation : fun
-        Function that updates environment and aircraft in order to get
+        Callback function that updates environment and aircraft in order to get
         proper forces, moments and mass properties for integration steps.
 
     Methods

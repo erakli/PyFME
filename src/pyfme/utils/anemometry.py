@@ -4,8 +4,10 @@ Python Flight Mechanics Engine (PyFME).
 Copyright (c) AeroPython Development Team.
 Distributed under the terms of the MIT License.
 
-Anemometry related functions (to be completed)
+Anemometry related functions
 ----------------------------
+TODO: (to be completed)
+
 Set of functions which allows to obtain the True Airspeed (TAS), the
 Equivalent airspeed (EAS) or the Calibrated Airspeed (CAS) known one of the
 others.
@@ -21,6 +23,12 @@ altitude at which the aircraft is flying.
 Calibrated airspeed (CAS) is the speed shown by a conventional
 airspeed indicator after correction for instrument error and
 position error.
+
+References
+----------
+.. [STE1992] Stevens, BL and Lewis, FL, "Aircraft Control and Simulation",
+    Wiley-lnterscience, pp. 64, 1992.
+
 """
 
 from math import asin, atan, sqrt
@@ -58,22 +66,14 @@ def calculate_alpha_beta_TAS(u, v, w):
 
     Notes
     -----
-    See [1] or [2] for frame of reference definition.
-    See [3] for formula derivation.
+    See [ETK2012]_ or [TIE2012]_ for frame of reference definition.
+    See [STE1992]_ for formula derivation.
 
     $$ TAS = sqrt(u^2 + v^2 + w^2)$$
 
     $$ alpha = \atan(w / u) $$
     $$ beta = \asin(v / TAS) $$
 
-    References
-    ----------
-    .. [1] B. Etkin, "Dynamics of Atmospheric Flight," Courier Corporation,
-        pp. 104-120, 2012.
-    .. [2] Gómez Tierno, M.A. et al, "Mecánica del Vuelo," Garceta, pp. 1-12,
-        2012.
-    .. [3] Stevens, BL and Lewis, FL, "Aircraft Control and Simulation",
-        Wiley-lnterscience, pp. 64, 1992.
     """
 
     TAS = sqrt(u ** 2 + v ** 2 + w ** 2)
@@ -122,12 +122,12 @@ def calculate_viscosity_Sutherland(T):
 
     Notes
     -----------
-    AcCording to [1] the limits for this function are:
+    According to [ETK2012]_ the limits for this function are:
 
     p < p_c =36 Atm (3.65 MPa)
     T < 2000 K
 
-    According to [2] the limits for this function are:
+    According to [TIE2012]_ the limits for this function are:
 
     T < 550 K
 
@@ -362,7 +362,7 @@ def stagnation_pressure(p, a, tas):
         Stagnation pressure at flight level (Pa)
     References
     ----------
-    .. [1] http://www.dept.aoe.vt.edu/~lutze/AOE3104/airspeed.pdf
+    .. [1]__ http://www.dept.aoe.vt.edu/~lutze/AOE3104/airspeed.pdf
     """
 
     var = (gamma - 1) / gamma

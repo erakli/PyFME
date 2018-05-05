@@ -16,7 +16,10 @@ from pyfme.utils.coordinates import hor2body
 
 
 class Gravity(object):
-    """Generic gravity model"""
+    """Generic gravity model
+
+    versor is a quaternion of norm one
+    """
 
     def __init__(self):
         self._magnitude = None

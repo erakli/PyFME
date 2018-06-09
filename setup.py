@@ -25,7 +25,8 @@ setup(
         "numpy",
         "scipy",
         "matplotlib",
-        "pandas"
+        "pandas",
+        "tqdm"
     ],
     tests_require=[
         "pytest"

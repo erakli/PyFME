@@ -6,7 +6,7 @@ Tests of equations of euler flat earth model.
 import pytest
 import numpy as np
 
-from pyfme.models.euler_flat_earth import _system_equations, EulerFlatEarth
+from pyfme.models.euler_flat_earth import EulerFlatEarth
 from pyfme.models.state import (EarthPosition, EulerAttitude, BodyVelocity,
                                 BodyAngularVelocity, BodyAcceleration,
                                 BodyAngularAcceleration, AircraftState)
@@ -46,7 +46,8 @@ def test_system_equations():
          1 + (2 ** 0.5) / 2, 0, 1 - (2 ** 0.5) / 2],
         dtype=float
     )
-    sol = _system_equations(time, state_vector, mass, inertia, forces, moments)
+    sol = EulerFlatEarth._system_equations(time, state_vector, mass, inertia,
+                                           forces, moments)
     np.testing.assert_allclose(sol, exp_sol, rtol=1e-7, atol=1e-15)
 
 
